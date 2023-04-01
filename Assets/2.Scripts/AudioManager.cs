@@ -134,13 +134,13 @@ public class AudioManager : MonoBehaviour
 
         if (s == null)
         {
-            Debug.LogError("SFX Å¬¸³À» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("SFX Å¬ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             return;
         }
 
         if (audio == null)
         {
-            Debug.LogError("Audio Source°¡ ¾ø½À´Ï´Ù.");
+            Debug.LogError("Audio Sourceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             return;
         }
 
@@ -161,7 +161,7 @@ public class AudioManager : MonoBehaviour
 
         if (s == null)
         {
-            Debug.LogError("SFX Å¬¸³À» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("SFX Å¬ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             return null;
         }
 
@@ -188,7 +188,7 @@ public class AudioManager : MonoBehaviour
     {
         if (BGMaudioSource.isPlaying)
         {
-            if (s.name == nowBgmName)                   //°°Àº bgmÀÌ¸é ¸®ÅÏ
+            if (s.name == nowBgmName)                   //ï¿½ï¿½ï¿½ï¿½ bgmï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
                 return;
 
             float previousBgmTimeSave = previousBgmTime;

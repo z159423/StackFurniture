@@ -31,7 +31,7 @@ public class FurnitureSpawnManager : MonoBehaviour
     public float furnitureMoveSpeed = 1f;
 
     private TouchControls touchControls;
-   
+
     public static FurnitureSpawnManager instance;
 
     private void Awake()
@@ -46,7 +46,7 @@ public class FurnitureSpawnManager : MonoBehaviour
 
     private void Update()
     {
-        if(CurrentControllFurniture != null && gameFlowController.gameStarted)
+        if (CurrentControllFurniture != null && gameFlowController.gameStarted)
         {
             CurrentControllFurniture.transform.localPosition += (Vector3.down * Time.deltaTime * furnitureDownSpeed);
 
@@ -58,7 +58,7 @@ public class FurnitureSpawnManager : MonoBehaviour
             //CurrentControllFurniture.transform.position.x += fixedTouchField.TouchDist.x * Time.deltaTime * 10;
             //CurrentControllFurniture.transform.position.z += fixedTouchField.TouchDist.y * Time.deltaTime * 10;
 
-            if(gameFlowController.GetCameraViewPort() == 0)
+            if (gameFlowController.GetCameraViewPort() == 0)
             {
                 CurrentControllFurniture.transform.localPosition += (new Vector3(fixedTouchField.TouchDist.x, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
                 CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, fixedTouchField.TouchDist.y) * Time.deltaTime * furnitureMoveSpeed);
@@ -66,14 +66,16 @@ public class FurnitureSpawnManager : MonoBehaviour
             else if (gameFlowController.GetCameraViewPort() == 1)
             {
                 CurrentControllFurniture.transform.localPosition += (new Vector3(-fixedTouchField.TouchDist.y, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
-                CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, fixedTouchField.TouchDist.x ) * Time.deltaTime * furnitureMoveSpeed);
-            }else if (gameFlowController.GetCameraViewPort() == 2)
+                CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, fixedTouchField.TouchDist.x) * Time.deltaTime * furnitureMoveSpeed);
+            }
+            else if (gameFlowController.GetCameraViewPort() == 2)
             {
                 CurrentControllFurniture.transform.localPosition += (new Vector3(-fixedTouchField.TouchDist.x, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
                 CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, -fixedTouchField.TouchDist.y) * Time.deltaTime * furnitureMoveSpeed);
-            }else if (gameFlowController.GetCameraViewPort() == 3)
+            }
+            else if (gameFlowController.GetCameraViewPort() == 3)
             {
-                CurrentControllFurniture.transform.localPosition += (new Vector3(fixedTouchField.TouchDist.y , 0, 0) * Time.deltaTime * furnitureMoveSpeed);
+                CurrentControllFurniture.transform.localPosition += (new Vector3(fixedTouchField.TouchDist.y, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
                 CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, -fixedTouchField.TouchDist.x) * Time.deltaTime * furnitureMoveSpeed);
             }
 
@@ -81,7 +83,7 @@ public class FurnitureSpawnManager : MonoBehaviour
             //currentFurnitureCenterVec = CurrentControllFurniture.GetComponent<MeshFilter>().mesh.bounds.center;
 
             furnitureDownLine.SetPosition(0, currentFurnitureCenterVec);
-            furnitureDownLine.SetPosition(1, new Vector3(currentFurnitureCenterVec.x,0, currentFurnitureCenterVec.z));
+            furnitureDownLine.SetPosition(1, new Vector3(currentFurnitureCenterVec.x, 0, currentFurnitureCenterVec.z));
         }
     }
 
@@ -96,15 +98,17 @@ public class FurnitureSpawnManager : MonoBehaviour
         //CurrentControllFurniture.GetComponent<NonConvexMeshCollider>().Calculate();
 
         gameFlowController.AddNewFurniture(CurrentControllFurniture);
+
+        CameraManager.instance.ChangeCameraTarget(CurrentControllFurniture.transform);
     }
 
     public void ClearAllGeneratedFurniture()
     {
         Transform[] childList = FurniturePool.GetComponentsInChildren<Transform>();
 
-        if(childList != null)
+        if (childList != null)
         {
-            for(int i = 1; i < childList.Length; i++)
+            for (int i = 1; i < childList.Length; i++)
             {
                 if (childList[i] != transform)
                     Destroy(childList[i].gameObject);
@@ -128,7 +132,7 @@ public class FurnitureSpawnManager : MonoBehaviour
 
     public void RotateLeft()
     {
-        if(CurrentControllFurniture != null)
+        if (CurrentControllFurniture != null)
         {
             //CurrentControllFurniture.transform.localRotation = Quaternion.Euler(CurrentControllFurniture.transform.localRotation.eulerAngles + new Vector3(0, 90, 0));
 

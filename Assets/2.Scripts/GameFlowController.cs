@@ -22,6 +22,9 @@ public class GameFlowController : MonoBehaviour
     [SerializeField] private GameObject CameraChangeViewPort;
     [SerializeField] private GameObject HeartPanel;
     [SerializeField] private GameObject PuaseButton;
+    [SerializeField] private GameObject PauseBtn;
+    [SerializeField] private GameObject ResumeBtn;
+
     [SerializeField] private GameObject OptionPanel;
     [SerializeField] private GameObject TutorialPanel;
 
@@ -113,6 +116,8 @@ public class GameFlowController : MonoBehaviour
         TutorialButton.gameObject.SetActive(false);
 
         furnitureSpawnManager.SpawnNewFurniture();
+
+        CameraManager.instance.ChangeVirtualCamera("furniture");
     }
 
     public void GameEnd()
@@ -128,6 +133,8 @@ public class GameFlowController : MonoBehaviour
         GetTopScore();
         //HeartPanel.SetActive(false);
 
+        CameraManager.instance.ChangeCameraTarget(null);
+
     }
 
     public void GoToMainMenu()
@@ -142,13 +149,15 @@ public class GameFlowController : MonoBehaviour
 
         IEnumerator showInterstitial()
         {
-            while(!this.interstitial.IsLoaded())
+            while (!this.interstitial.IsLoaded())
             {
-                Debug.Log("±¤°í ·Îµù ¾ÈµÊ");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ ï¿½Èµï¿½");
                 yield return new WaitForSeconds(0.1f);
             }
             this.interstitial.Show();
         }
+
+        CameraManager.instance.ChangeVirtualCamera("main");
 
         /*if (this.interstitial.IsLoaded())
         {
@@ -213,7 +222,7 @@ public class GameFlowController : MonoBehaviour
         camera.transform.position = cameraPositions[currentCameraPosition].position + new Vector3(0, currentCameraHeight, 0) + cameraOffect;
         camera.transform.rotation = cameraPositions[currentCameraPosition].rotation;
 
-        mainLight.transform.rotation = Quaternion.Euler(50,-50 + (currentCameraPosition * -90),0);
+        mainLight.transform.rotation = Quaternion.Euler(50, -50 + (currentCameraPosition * -90), 0);
     }
 
     public void ResetCameraPosition()
@@ -239,13 +248,13 @@ public class GameFlowController : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
 
-            var center = CreatedFurniture[CreatedFurniture.Count - i-1].GetComponent<MeshCollider>().bounds.center;
+            var center = CreatedFurniture[CreatedFurniture.Count - i - 1].GetComponent<MeshCollider>().bounds.center;
             RaycastHit hit;
-            var point = Physics.Raycast(center + (Vector3.up * 1000), Vector3.down ,out hit, Mathf.Infinity, objectLayer);
+            var point = Physics.Raycast(center + (Vector3.up * 1000), Vector3.down, out hit, Mathf.Infinity, objectLayer);
 
             //Debug.LogError(CreatedFurniture[CreatedFurniture.Count - i - 1].gameObject.name);
 
-            if(point)
+            if (point)
             {
                 //Debug.LogError(hit.point.y);
 
@@ -254,11 +263,11 @@ public class GameFlowController : MonoBehaviour
                     currentCameraHeight = hit.point.y;
                     camera.transform.position = new Vector3(camera.transform.position.x, originHeight + currentCameraHeight, camera.transform.position.z) + cameraOffect;
 
-                    furnitureSpawnManager.ChangeFurnitureSpawnPosition(new Vector3(0,currentCameraHeight, 0) + cameraOffect);
+                    furnitureSpawnManager.ChangeFurnitureSpawnPosition(new Vector3(0, currentCameraHeight, 0) + cameraOffect);
                 }
             }
         }
-        
+
     }
 
     public void AddNewFurniture(GameObject furniture)
@@ -268,17 +277,21 @@ public class GameFlowController : MonoBehaviour
 
     public void GamePause()
     {
-        if(Time.timeScale == 0)
+        if (Time.timeScale == 0)
         {
             Time.timeScale = 1;
-            PuaseButton.GetComponent<Button>().image.sprite = PauseButtonSprite;
+            // PuaseButton.GetComponent<Button>().image.sprite = PauseButtonSprite;
+            PauseBtn.SetActive(true);
+            ResumeBtn.SetActive(false);
         }
         else
         {
             Time.timeScale = 0;
-            PuaseButton.GetComponent<Button>().image.sprite = ResumeButtonSprite;
+            // PuaseButton.GetComponent<Button>().image.sprite = ResumeButtonSprite;
+            PauseBtn.SetActive(false);
+            ResumeBtn.SetActive(true);
         }
-        
+
     }
 
     public bool GetGameState()
@@ -361,5 +374,5 @@ public class GameFlowController : MonoBehaviour
         this.interstitial.LoadAd(request);
     }
 
-    
+
 }
