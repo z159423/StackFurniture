@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class FurnitureSpawnManager : MonoBehaviour
 {
@@ -33,6 +34,10 @@ public class FurnitureSpawnManager : MonoBehaviour
     private TouchControls touchControls;
 
     public static FurnitureSpawnManager instance;
+
+    private bool canRotate = true;
+
+    private Sequence furnitureRotateSeq;
 
     private void Awake()
     {
@@ -85,7 +90,7 @@ public class FurnitureSpawnManager : MonoBehaviour
             // CurrentControllFurniture.transform.Translate(new Vector3(fixedTouchField.TouchDist.x, 0, fixedTouchField.TouchDist.y) * Time.deltaTime * furnitureMoveSpeed);
 
 
-            currentFurnitureCenterVec = CurrentControllFurniture.GetComponent<MeshCollider>().bounds.center;
+            currentFurnitureCenterVec = CurrentControllFurniture.GetComponentInChildren<MeshCollider>().bounds.center;
             //currentFurnitureCenterVec = CurrentControllFurniture.GetComponent<MeshFilter>().mesh.bounds.center;
 
             furnitureDownLine.SetPosition(0, currentFurnitureCenterVec);
@@ -98,9 +103,27 @@ public class FurnitureSpawnManager : MonoBehaviour
         if (!gameFlowController.gameStarted)
             return;
 
+        furnitureRotateSeq.Kill();
+
         int furnitureNumber = Random.Range(0, Furnitures.Count);
 
-        CurrentControllFurniture = Instantiate(Furnitures[furnitureNumber], FurnitureSpawnPosition.position, Quaternion.identity, FurniturePool);
+        GameObject newFurniture = new GameObject(Furnitures[furnitureNumber].name);
+
+        newFurniture.transform.SetParent(FurniturePool);
+
+        newFurniture.transform.position = FurnitureSpawnPosition.position;
+
+        GameObject furniturePivot = new GameObject(Furnitures[furnitureNumber].name);
+        furniturePivot.transform.SetParent(newFurniture.transform);
+        furniturePivot.AddComponent<FurniturePivot>();
+
+        furniturePivot.transform.position = FurnitureSpawnPosition.position;
+
+        var furniture = Instantiate(Furnitures[furnitureNumber], furniturePivot.transform.position, Quaternion.identity, furniturePivot.transform);
+
+        furniture.transform.Translate((furniturePivot.transform.position - furniture.GetComponentInChildren<MeshCollider>().bounds.center));
+        CurrentControllFurniture = newFurniture;
+
         //CurrentControllFurniture.GetComponent<NonConvexMeshCollider>().Calculate();
 
         gameFlowController.AddNewFurniture(CurrentControllFurniture);
@@ -131,52 +154,71 @@ public class FurnitureSpawnManager : MonoBehaviour
     {
         if (CurrentControllFurniture != null)
         {
-            CurrentControllFurniture.GetComponent<Rigidbody>().useGravity = true;
+            CurrentControllFurniture.GetComponentInChildren<Rigidbody>().useGravity = true;
             furnitureDownLine.enabled = false;
         }
     }
 
     public void RotateLeft()
     {
-        if (CurrentControllFurniture != null)
+        if (CurrentControllFurniture != null && canRotate)
         {
+            canRotate = false;
             //CurrentControllFurniture.transform.localRotation = Quaternion.Euler(CurrentControllFurniture.transform.localRotation.eulerAngles + new Vector3(0, 90, 0));
 
             //CurrentControllFurniture.transform.Rotate(new Vector3(0, 90, 0));
-            CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(0, 90, 0), 90);
+            // CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(0, 90, 0), 90);
+
+            furnitureRotateSeq.Append(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotate(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(0, 90, 0), 0.4f).OnComplete(() => canRotate = true)
+);
         }
     }
 
     public void RotateRight()
     {
-        if (CurrentControllFurniture != null)
+        if (CurrentControllFurniture != null && canRotate)
         {
+            canRotate = false;
             //CurrentControllFurniture.transform.localRotation = Quaternion.Euler(CurrentControllFurniture.transform.localRotation.eulerAngles + new Vector3(0, -90, 0));
 
             //CurrentControllFurniture.transform.Rotate(new Vector3(0, -90, 0));
-            CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(0, -90, 0), -90);
+            // CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(0, -90, 0), -90);
+            furnitureRotateSeq.Append(
+            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotate(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(0, -90, 0), 0.4f).OnComplete(() => canRotate = true)
+            );
         }
     }
 
     public void RotateUp()
     {
-        if (CurrentControllFurniture != null)
+        if (CurrentControllFurniture != null && canRotate)
         {
+            canRotate = false;
             //CurrentControllFurniture.transform.localRotation = Quaternion.Euler(CurrentControllFurniture.transform.localRotation.eulerAngles + new Vector3(90, 0, 0));
 
             //CurrentControllFurniture.transform.Rotate(new Vector3(90, 0, 0));
-            CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(90, 0, 0), 90);
+            // CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(90, 0, 0), 90);
+
+            print(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(90, 0, 0));
+
+            furnitureRotateSeq.Append(
+            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotate(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(90, 0, 0), 0.4f).OnComplete(() => canRotate = true)
+            );
         }
     }
 
     public void RotateDown()
     {
-        if (CurrentControllFurniture != null)
+        if (CurrentControllFurniture != null && canRotate)
         {
+            canRotate = false;
             //CurrentControllFurniture.transform.localRotation = Quaternion.Euler(CurrentControllFurniture.transform.localRotation.eulerAngles + new Vector3(-90, 0, 0));
 
             //CurrentControllFurniture.transform.Rotate(new Vector3(-90, 0, 0));
-            CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(-90, 0, 0), -90);
+            // CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(-90, 0, 0), -90);
+            furnitureRotateSeq.Append(
+            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotate(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(-90, 0, 0), 0.4f).OnComplete(() => canRotate = true)
+            );
         }
     }
 

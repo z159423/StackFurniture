@@ -248,7 +248,7 @@ public class GameFlowController : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
 
-            var center = CreatedFurniture[CreatedFurniture.Count - i - 1].GetComponent<MeshCollider>().bounds.center;
+            var center = CreatedFurniture[CreatedFurniture.Count - i - 1].GetComponentInChildren<MeshCollider>().bounds.center;
             RaycastHit hit;
             var point = Physics.Raycast(center + (Vector3.up * 1000), Vector3.down, out hit, Mathf.Infinity, objectLayer);
 
