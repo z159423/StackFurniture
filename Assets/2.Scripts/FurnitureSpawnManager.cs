@@ -58,26 +58,32 @@ public class FurnitureSpawnManager : MonoBehaviour
             //CurrentControllFurniture.transform.position.x += fixedTouchField.TouchDist.x * Time.deltaTime * 10;
             //CurrentControllFurniture.transform.position.z += fixedTouchField.TouchDist.y * Time.deltaTime * 10;
 
-            if (gameFlowController.GetCameraViewPort() == 0)
-            {
-                CurrentControllFurniture.transform.localPosition += (new Vector3(fixedTouchField.TouchDist.x, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
-                CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, fixedTouchField.TouchDist.y) * Time.deltaTime * furnitureMoveSpeed);
-            }
-            else if (gameFlowController.GetCameraViewPort() == 1)
-            {
-                CurrentControllFurniture.transform.localPosition += (new Vector3(-fixedTouchField.TouchDist.y, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
-                CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, fixedTouchField.TouchDist.x) * Time.deltaTime * furnitureMoveSpeed);
-            }
-            else if (gameFlowController.GetCameraViewPort() == 2)
-            {
-                CurrentControllFurniture.transform.localPosition += (new Vector3(-fixedTouchField.TouchDist.x, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
-                CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, -fixedTouchField.TouchDist.y) * Time.deltaTime * furnitureMoveSpeed);
-            }
-            else if (gameFlowController.GetCameraViewPort() == 3)
-            {
-                CurrentControllFurniture.transform.localPosition += (new Vector3(fixedTouchField.TouchDist.y, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
-                CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, -fixedTouchField.TouchDist.x) * Time.deltaTime * furnitureMoveSpeed);
-            }
+            // if (gameFlowController.GetCameraViewPort() == 0)
+            // {
+            //     CurrentControllFurniture.transform.localPosition += (new Vector3(fixedTouchField.TouchDist.x, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
+            //     CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, fixedTouchField.TouchDist.y) * Time.deltaTime * furnitureMoveSpeed);
+            // }
+            // else if (gameFlowController.GetCameraViewPort() == 1)
+            // {
+            //     CurrentControllFurniture.transform.localPosition += (new Vector3(-fixedTouchField.TouchDist.y, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
+            //     CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, fixedTouchField.TouchDist.x) * Time.deltaTime * furnitureMoveSpeed);
+            // }
+            // else if (gameFlowController.GetCameraViewPort() == 2)
+            // {
+            //     CurrentControllFurniture.transform.localPosition += (new Vector3(-fixedTouchField.TouchDist.x, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
+            //     CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, -fixedTouchField.TouchDist.y) * Time.deltaTime * furnitureMoveSpeed);
+            // }
+            // else if (gameFlowController.GetCameraViewPort() == 3)
+            // {
+            //     CurrentControllFurniture.transform.localPosition += (new Vector3(fixedTouchField.TouchDist.y, 0, 0) * Time.deltaTime * furnitureMoveSpeed);
+            //     CurrentControllFurniture.transform.localPosition += (new Vector3(0, 0, -fixedTouchField.TouchDist.x) * Time.deltaTime * furnitureMoveSpeed);
+            // }
+
+            CurrentControllFurniture.transform.Translate(CameraManager.instance.GetCameraLookForwardDir() * fixedTouchField.TouchDist.y * Time.deltaTime * furnitureMoveSpeed);
+            CurrentControllFurniture.transform.Translate(CameraManager.instance.GetCameraLookRightDir() * fixedTouchField.TouchDist.x * Time.deltaTime * furnitureMoveSpeed);
+
+            // CurrentControllFurniture.transform.Translate(new Vector3(fixedTouchField.TouchDist.x, 0, fixedTouchField.TouchDist.y) * Time.deltaTime * furnitureMoveSpeed);
+
 
             currentFurnitureCenterVec = CurrentControllFurniture.GetComponent<MeshCollider>().bounds.center;
             //currentFurnitureCenterVec = CurrentControllFurniture.GetComponent<MeshFilter>().mesh.bounds.center;
