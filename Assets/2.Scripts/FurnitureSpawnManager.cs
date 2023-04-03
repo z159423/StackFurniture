@@ -111,6 +111,8 @@ public class FurnitureSpawnManager : MonoBehaviour
 
         newFurniture.transform.SetParent(FurniturePool);
 
+        print(FurnitureSpawnPosition.position);
+
         newFurniture.transform.position = FurnitureSpawnPosition.position;
 
         GameObject furniturePivot = new GameObject(Furnitures[furnitureNumber].name);
@@ -169,8 +171,7 @@ public class FurnitureSpawnManager : MonoBehaviour
             //CurrentControllFurniture.transform.Rotate(new Vector3(0, 90, 0));
             // CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(0, 90, 0), 90);
 
-            furnitureRotateSeq.Append(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotate(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(0, 90, 0), 0.4f).OnComplete(() => canRotate = true)
-);
+            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation * Quaternion.Euler(0, 0, 90), 0.4f).OnComplete(() => canRotate = true);
         }
     }
 
@@ -184,8 +185,7 @@ public class FurnitureSpawnManager : MonoBehaviour
             //CurrentControllFurniture.transform.Rotate(new Vector3(0, -90, 0));
             // CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(0, -90, 0), -90);
             furnitureRotateSeq.Append(
-            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotate(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(0, -90, 0), 0.4f).OnComplete(() => canRotate = true)
-            );
+CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation * Quaternion.Euler(0, 0, -90), 0.4f).OnComplete(() => canRotate = true));
         }
     }
 
@@ -202,7 +202,7 @@ public class FurnitureSpawnManager : MonoBehaviour
             print(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(90, 0, 0));
 
             furnitureRotateSeq.Append(
-            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotate(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(90, 0, 0), 0.4f).OnComplete(() => canRotate = true)
+            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation * Quaternion.Euler(90, 0, 0), 0.4f).OnComplete(() => canRotate = true)
             );
         }
     }
@@ -217,14 +217,13 @@ public class FurnitureSpawnManager : MonoBehaviour
             //CurrentControllFurniture.transform.Rotate(new Vector3(-90, 0, 0));
             // CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(-90, 0, 0), -90);
             furnitureRotateSeq.Append(
-            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotate(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(-90, 0, 0), 0.4f).OnComplete(() => canRotate = true)
-            );
+CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation * Quaternion.Euler(-90, 0, 0), 0.4f).OnComplete(() => canRotate = true));
         }
     }
 
     public void ChangeFurnitureSpawnPosition(Vector3 position)
     {
-        FurnitureSpawnPosition.position = FurnitureSpawnPosition.position + position;
+        FurnitureSpawnPosition.position = position + originFurnitureSpawnPosition;
     }
 
     public void ResetFurnitureSpawnPosition(Vector3 offset)

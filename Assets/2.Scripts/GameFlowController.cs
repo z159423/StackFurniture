@@ -76,7 +76,7 @@ public class GameFlowController : MonoBehaviour
 
         touchControls = new TouchControls();
 
-
+        Application.targetFrameRate = 60;
     }
 
     private void Start()
@@ -98,6 +98,8 @@ public class GameFlowController : MonoBehaviour
     {
         if (OptionPanel.activeSelf || TutorialPanel.activeSelf)
             return;
+
+        CameraManager.instance.ResetCamera();
 
         gameStarted = true;
 
@@ -159,13 +161,15 @@ public class GameFlowController : MonoBehaviour
 
         CameraManager.instance.ChangeVirtualCamera("main");
 
+        HandleOnAdClosed();
+
         /*if (this.interstitial.IsLoaded())
         {
             this.interstitial.Show();
         }*/
     }
 
-    public void HandleOnAdClosed(object sender, System.EventArgs args)
+    public void HandleOnAdClosed()
     {
         isAdRequest = false;
 
@@ -263,7 +267,7 @@ public class GameFlowController : MonoBehaviour
                     currentCameraHeight = hit.point.y;
                     camera.transform.position = new Vector3(camera.transform.position.x, originHeight + currentCameraHeight, camera.transform.position.z) + cameraOffect;
 
-                    furnitureSpawnManager.ChangeFurnitureSpawnPosition(new Vector3(0, currentCameraHeight, 0) + cameraOffect);
+                    furnitureSpawnManager.ChangeFurnitureSpawnPosition(new Vector3(0, hit.point.y, 0));
                 }
             }
         }
@@ -366,7 +370,7 @@ public class GameFlowController : MonoBehaviour
         // Initialize an InterstitialAd.
         this.interstitial = new InterstitialAd(adUnitId);
         // Called when the ad is closed.
-        this.interstitial.OnAdClosed += HandleOnAdClosed;
+        // this.interstitial.OnAdClosed += HandleOnAdClosed;
 
         // Create an empty ad request.
         AdRequest request = new AdRequest.Builder().Build();

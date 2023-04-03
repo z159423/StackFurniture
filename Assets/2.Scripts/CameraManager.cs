@@ -48,7 +48,8 @@ public class CameraManager : MonoBehaviour
     {
         // currentVirtualCamera.transform.RotateAround(transform.position, new Vector3(0, (cameraRotateSlider.value * 360) - 180, 0), Time.deltaTime);
         // transform.rotation = Quaternion.Euler(0, (cameraRotateSlider.value * 360) - 180, 0);
-        var orbital = currentVirtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>().m_Heading.m_Bias = (cameraRotateSlider.value * 360) - 180;
+        if (currentVirtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>() != null)
+            currentVirtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>().m_Heading.m_Bias = (cameraRotateSlider.value * 360) - 180;
     }
 
     public Vector3 GetCameraLookForwardDir()
@@ -65,6 +66,7 @@ public class CameraManager : MonoBehaviour
 
     public void ResetCamera()
     {
+        cameraRotateSlider.value = 0.5f;
         virtualCameras.Find(f => f.tag == "furniture").virtualCam.GetCinemachineComponent<CinemachineOrbitalTransposer>().m_Heading.m_Bias = 0;
     }
 }
