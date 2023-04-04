@@ -21,7 +21,6 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField] CinemachineVirtualCamera virtualCamera;
 
-
     public void ChangeCameraTarget(Transform target)
     {
         virtualCamera.Follow = target;

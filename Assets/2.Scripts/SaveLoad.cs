@@ -18,13 +18,17 @@ public class SaveLoad : MonoBehaviour
         {
             yield return LocalizationSettings.InitializationOperation;
 
-            if(Application.systemLanguage == SystemLanguage.English)
+            if (Application.systemLanguage == SystemLanguage.English)
             {
                 LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[0];
             }
-            else if(Application.systemLanguage == SystemLanguage.Korean)
+            else if (Application.systemLanguage == SystemLanguage.Korean)
             {
                 LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[1];
+            }
+            else
+            {
+                LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[0];
             }
         }
 
@@ -93,7 +97,7 @@ public class SaveLoad : MonoBehaviour
         }
         else
         {
-            Debug.Log("¼¼ÀÌºê¸¦ ¸øºÒ·¯¿Ô½À´Ï´Ù. " + path + "\n»õ·Î¿î ¼¼ÀÌºê ÆÄÀÏÀ» »ý¼ºÇÕ´Ï´Ù.");
+            Debug.Log("ï¿½ï¿½ï¿½Ìºê¸¦ ï¿½ï¿½ï¿½Ò·ï¿½ï¿½Ô½ï¿½ï¿½Ï´ï¿½. " + path + "\nï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
 
             SaveData settingData = new SaveData();
 

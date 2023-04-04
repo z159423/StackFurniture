@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
-using GoogleMobileAds.Api;
+
 
 public class GameFlowController : MonoBehaviour
 {
@@ -65,8 +65,7 @@ public class GameFlowController : MonoBehaviour
     public bool playSound = true;
     public bool playVibration = true;
 
-    private InterstitialAd interstitial;
-    private bool isAdRequest = false;
+
 
     public static GameFlowController instance;
 
@@ -77,6 +76,14 @@ public class GameFlowController : MonoBehaviour
         touchControls = new TouchControls();
 
         Application.targetFrameRate = 60;
+
+        if (!ES3.KeyExists("TryStage"))
+        {
+            Firebase.Analytics.FirebaseAnalytics.LogEvent("FirstOpenGame");
+
+            ES3.Save<int>("TryStage", 0);
+        }
+
     }
 
     private void Start()
@@ -120,6 +127,11 @@ public class GameFlowController : MonoBehaviour
         furnitureSpawnManager.SpawnNewFurniture();
 
         CameraManager.instance.ChangeVirtualCamera("furniture");
+
+        ES3.Save<int>("TryStage", ES3.Load<int>("TryStage") + 1);
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("TryStage", "tryNum", (ES3.Load<int>("TryStage")));
+
+        AdManager.instance.IrTimeTicking = true;
     }
 
     public void GameEnd()
@@ -137,41 +149,17 @@ public class GameFlowController : MonoBehaviour
 
         CameraManager.instance.ChangeCameraTarget(null);
 
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("FailedStage", "score", (ES3.Load<int>("TryStage") + 1));
     }
 
     public void GoToMainMenu()
     {
-        if (isAdRequest)
-            return;
-
-        RequestInterstitial();
-
-        isAdRequest = true;
-        StartCoroutine(showInterstitial());
-
-        IEnumerator showInterstitial()
-        {
-            while (!this.interstitial.IsLoaded())
-            {
-                Debug.Log("���� �ε� �ȵ�");
-                yield return new WaitForSeconds(0.1f);
-            }
-            this.interstitial.Show();
-        }
-
         CameraManager.instance.ChangeVirtualCamera("main");
-
-        HandleOnAdClosed();
 
         /*if (this.interstitial.IsLoaded())
         {
             this.interstitial.Show();
         }*/
-    }
-
-    public void HandleOnAdClosed()
-    {
-        isAdRequest = false;
 
         currentCameraHeight = 0;
         ResetCameraPosition();
@@ -195,6 +183,9 @@ public class GameFlowController : MonoBehaviour
         ResetScore();
 
         furnitureSpawnManager.ClearAllGeneratedFurniture();
+
+        AdManager.instance.IrTimeTicking = false;
+        AdManager.instance.CallIrAds();
     }
 
     public void AddScore(int num)
@@ -294,6 +285,8 @@ public class GameFlowController : MonoBehaviour
             // PuaseButton.GetComponent<Button>().image.sprite = ResumeButtonSprite;
             PauseBtn.SetActive(false);
             ResumeBtn.SetActive(true);
+
+            Firebase.Analytics.FirebaseAnalytics.LogEvent("OnClickPuaseBtn");
         }
 
     }
@@ -356,27 +349,5 @@ public class GameFlowController : MonoBehaviour
 
         OptionPanel.SetActive(false);
     }
-
-    private void RequestInterstitial()
-    {
-#if UNITY_ANDROID
-        string adUnitId = "ca-app-pub-5179254807136480/1055155048";
-#elif UNITY_IPHONE
-        string adUnitId = "ca-app-pub-3940256099942544/4411468910";
-#else
-        string adUnitId = "unexpected_platform";
-#endif
-
-        // Initialize an InterstitialAd.
-        this.interstitial = new InterstitialAd(adUnitId);
-        // Called when the ad is closed.
-        // this.interstitial.OnAdClosed += HandleOnAdClosed;
-
-        // Create an empty ad request.
-        AdRequest request = new AdRequest.Builder().Build();
-        // Load the interstitial with the request.
-        this.interstitial.LoadAd(request);
-    }
-
 
 }

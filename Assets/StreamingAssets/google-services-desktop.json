@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "806930580751",
+    "project_id": "stack-furniture",
+    "storage_bucket": "stack-furniture.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806930580751:android:554893bafc90ba15372a7a",
+        "android_client_info": {
+          "package_name": "com.TeroGames.StackFurniture"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806930580751-v4qlpsrpfu6tosg4r2ia9e7gst99k6lo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDf4Xw-5-HmgXof4cuoGSJYT4R3tmD3Bg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "806930580751-v4qlpsrpfu6tosg4r2ia9e7gst99k6lo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
