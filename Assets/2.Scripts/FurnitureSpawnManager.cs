@@ -161,6 +161,21 @@ public class FurnitureSpawnManager : MonoBehaviour
         }
     }
 
+    public void TriggerInWater()
+    {
+        if (CurrentControllFurniture != null)
+        {
+            CurrentControllFurniture.GetComponentInChildren<Rigidbody>().useGravity = true;
+            furnitureDownLine.enabled = false;
+        }
+    }
+
+    public void Revive()
+    {
+        SpawnNewFurniture();
+        furnitureDownLine.enabled = true;
+    }
+
     public void RotateLeft()
     {
         if (CurrentControllFurniture != null && canRotate)

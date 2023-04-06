@@ -5,6 +5,13 @@ using GoogleMobileAds.Api;
 
 public class BottomBanner : MonoBehaviour
 {
+    public static BottomBanner instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private BannerView bannerView;
 
     public void Start()
@@ -12,13 +19,14 @@ public class BottomBanner : MonoBehaviour
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize(initStatus => { });
 
-        this.RequestBanner();
+        if (!IAPManager.instance.HadPurchased())
+            this.RequestBanner();
     }
 
     private void RequestBanner()
     {
 #if UNITY_ANDROID
-            string adUnitId = "ca-app-pub-5179254807136480/4994400059";
+        string adUnitId = "ca-app-pub-5179254807136480/4994400059";
 #elif UNITY_IPHONE
             string adUnitId = "ca-app-pub-3940256099942544/2934735716";
 #else
@@ -41,5 +49,13 @@ public class BottomBanner : MonoBehaviour
 
         // Load the banner with the request.
         this.bannerView.LoadAd(request);
+    }
+
+    public void DestoryBanner()
+    {
+        if (this.bannerView != null)
+        {
+            this.bannerView.Destroy();
+        }
     }
 }

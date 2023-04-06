@@ -25,17 +25,22 @@ public class Furniture : MonoBehaviour
         {
             if (freezeTime < 0)
             {
-                rigid.isKinematic = true;
-                isFreeze = true;
+                Freeze();
             }
 
             CheckChangePosition();
         }
     }
 
+    public void Freeze()
+    {
+        rigid.isKinematic = true;
+        isFreeze = true;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if(!isTriggered && GameFlowController.instance.GetGameState())
+        if (!isTriggered && GameFlowController.instance.GetGameState() && !isFreeze)
         {
             if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Furniture"))
             {
@@ -59,7 +64,7 @@ public class Furniture : MonoBehaviour
 
     private void CheckChangePosition()
     {
-        if(lastPos != transform.localPosition)
+        if (lastPos != transform.localPosition)
         {
             lastPos = transform.localPosition;
             freezeTime = 5;

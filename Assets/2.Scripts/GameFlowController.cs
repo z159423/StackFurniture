@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
+using System.Resources;
 
 
 public class GameFlowController : MonoBehaviour
@@ -47,6 +48,7 @@ public class GameFlowController : MonoBehaviour
     [SerializeField] private Camera camera;
     [SerializeField] private Light mainLight;
     [SerializeField] private Transform[] cameraPositions;
+    [SerializeField] public Transform UIParent;
 
 
     private TouchControls touchControls;
@@ -65,6 +67,7 @@ public class GameFlowController : MonoBehaviour
     public bool playSound = true;
     public bool playVibration = true;
 
+    public bool isRevivedInThisStage = false;
 
 
     public static GameFlowController instance;
@@ -150,6 +153,8 @@ public class GameFlowController : MonoBehaviour
         CameraManager.instance.ChangeCameraTarget(null);
 
         Firebase.Analytics.FirebaseAnalytics.LogEvent("FailedStage", "score", (ES3.Load<int>("TryStage") + 1));
+
+        isRevivedInThisStage = false;
     }
 
     public void GoToMainMenu()
@@ -186,6 +191,8 @@ public class GameFlowController : MonoBehaviour
 
         AdManager.instance.IrTimeTicking = false;
         AdManager.instance.CallIrAds();
+
+        isRevivedInThisStage = false;
     }
 
     public void AddScore(int num)
@@ -350,4 +357,37 @@ public class GameFlowController : MonoBehaviour
         OptionPanel.SetActive(false);
     }
 
+    public void Revive()
+    {
+        FreezeCreatedFurnitures();
+
+        isRevivedInThisStage = true;
+
+        gameStarted = true;
+    }
+
+    void FreezeCreatedFurnitures()
+    {
+        foreach (var furniture in CreatedFurniture)
+        {
+            furniture.GetComponentInChildren<Furniture>().Freeze();
+        }
+    }
+
+    public void TriggerInWater()
+    {
+        gameStarted = false;
+        if (isRevivedInThisStage)
+        {
+            GameEnd();
+            furnitureSpawnManager.GameEnd();
+        }
+        else
+        {
+            var prefab = Resources.Load<GameObject>("UI/ReviveUI");
+
+            Instantiate(prefab, Vector3.zero, Quaternion.identity, UIParent);
+        }
+
+    }
 }
