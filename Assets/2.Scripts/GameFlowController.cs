@@ -44,6 +44,7 @@ public class GameFlowController : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI ScoreText;
     [SerializeField] private TextMeshProUGUI TopScoreText;
+    [SerializeField] private TextMeshProUGUI TopScoreText2;
 
     [SerializeField] private Camera camera;
     [SerializeField] private Light mainLight;
@@ -135,6 +136,8 @@ public class GameFlowController : MonoBehaviour
         Firebase.Analytics.FirebaseAnalytics.LogEvent("TryStage", "tryNum", (ES3.Load<int>("TryStage")));
 
         AdManager.instance.IrTimeTicking = true;
+
+        TopScoreText2.text = SaveLoad.GetTopScore().ToString();
     }
 
     public void GameEnd()
@@ -146,7 +149,7 @@ public class GameFlowController : MonoBehaviour
         GoToMainMenuPanel.SetActive(true);
         RotateButtonBundle.SetActive(false);
         PuaseButton.SetActive(false);
-        TopScoreText.gameObject.SetActive(true);
+        // TopScoreText.gameObject.SetActive(true);
         GetTopScore();
         //HeartPanel.SetActive(false);
 
@@ -176,7 +179,7 @@ public class GameFlowController : MonoBehaviour
         GameTitle.SetActive(true);
         StartGamePanel.SetActive(true);
         StartGameText.SetActive(true);
-        TopScoreText.gameObject.SetActive(false);
+        // TopScoreText.gameObject.SetActive(false);
         ScoreText.gameObject.SetActive(false);
         CameraChangeViewPort.SetActive(false);
         OptionButton.gameObject.SetActive(true);

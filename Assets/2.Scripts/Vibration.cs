@@ -12,8 +12,8 @@ public static class Vibration
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
         AndroidVibrator.Call("vibrate");
-#else
         Handheld.Vibrate();
+#else
 #endif
     }
 
@@ -24,8 +24,8 @@ public static class Vibration
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         AndroidVibrator.Call("vibrate", milliseconds);
-#else
         Handheld.Vibrate();
+#else
 #endif
     }
     public static void Vibrate(long[] pattern, int repeat)
@@ -34,8 +34,8 @@ public static class Vibration
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         AndroidVibrator.Call("vibrate", pattern, repeat);
-#else
         Handheld.Vibrate();
+#else
 #endif
     }
 

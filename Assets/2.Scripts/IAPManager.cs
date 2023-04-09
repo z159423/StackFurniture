@@ -48,8 +48,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
                 if (m_StoreController != null)
                 {
                     initialized = true;
-                    HadPurchased();
-                    UpdateUI2();
+                    
                     break;
                 }
                 else
@@ -75,6 +74,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
         CheckRemoveAdsHasPurchase();
 
         UpdateUI2();
+
+        print("구매");
     }
 
     private void CheckRemoveAdsHasPurchase()
@@ -118,6 +119,9 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
         this.m_StoreController = controller;
         this.m_Extension = extensions;
+
+        HadPurchased();
+        UpdateUI2();
     }
 
     public void OnInitializeFailed(InitializationFailureReason error)
@@ -204,6 +208,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
         {
             print("광고제거를 구매한 적이 있는 유저");
             purchased = true;
+
+            BottomBanner.instance.DestoryBanner();
         }
 
         return purchased;

@@ -19,8 +19,8 @@ public class BottomBanner : MonoBehaviour
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize(initStatus => { });
 
-        if (!IAPManager.instance.HadPurchased())
-            this.RequestBanner();
+        // if (!IAPManager.instance.HadPurchased())
+        //     this.RequestBanner();
     }
 
     private void RequestBanner()
