@@ -33,7 +33,16 @@ MonoBehaviour:
     - Cinemachine
     - Assembly-CSharp-firstpass
     - Purchasing.Common
+    - UniTask
+    - UniTask.Linq
+    - Sirenix.OdinInspector.Modules.UnityLocalization
+    - UniTask.TextMeshPro
+    - UniTask.DOTween
+    - UniTask.Addressables
     - GoogleMobileAds.Editor
+    - UniTask.Editor
+    - Sirenix.OdinInspector.Modules.UnityMathematics
+    - Sirenix.OdinInspector.Modules.UnityLocalization.Editor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
