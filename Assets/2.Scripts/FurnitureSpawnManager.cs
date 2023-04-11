@@ -186,7 +186,11 @@ public class FurnitureSpawnManager : MonoBehaviour
             //CurrentControllFurniture.transform.Rotate(new Vector3(0, 90, 0));
             // CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(0, 90, 0), 90);
 
-            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation * Quaternion.Euler(0, 0, 90), 0.4f).OnComplete(() => canRotate = true);
+            print(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(0, -90, 0));
+
+            furnitureRotateSeq.Append(
+            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(Quaternion.Euler(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.rotation.eulerAngles + new Vector3(0, -90, 0)), 0.4f).OnComplete(() => canRotate = true));
+
             Firebase.Analytics.FirebaseAnalytics.LogEvent("RotateLeft");
         }
     }
@@ -200,8 +204,14 @@ public class FurnitureSpawnManager : MonoBehaviour
 
             //CurrentControllFurniture.transform.Rotate(new Vector3(0, -90, 0));
             // CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(0, -90, 0), -90);
+            print(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(0, 90, 0));
+
+
+            // CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.rotation * Quaternion.Euler(0, 90, 0), 0.4f).OnComplete(() => canRotate = true);
+
             furnitureRotateSeq.Append(
-CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation * Quaternion.Euler(0, 0, -90), 0.4f).OnComplete(() => canRotate = true));
+                        CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(Quaternion.Euler(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.rotation.eulerAngles + new Vector3(0, 90, 0)), 0.4f).OnComplete(() => canRotate = true));
+
             Firebase.Analytics.FirebaseAnalytics.LogEvent("RotateRight");
 
         }
@@ -220,11 +230,16 @@ CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORo
             print(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation.eulerAngles + new Vector3(90, 0, 0));
 
             furnitureRotateSeq.Append(
-            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation * Quaternion.Euler(90, 0, 0), 0.4f).OnComplete(() => canRotate = true)
+            CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.rotation * Quaternion.Euler(90, 0, 0), 0.4f).OnComplete(() => canRotate = true)
             );
+
+            // furnitureRotateSeq.Append(
+            // CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(Quaternion.Euler(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.rotation.eulerAngles + new Vector3(90, 0, 0)), 0.4f).OnComplete(() => canRotate = true));
+
             Firebase.Analytics.FirebaseAnalytics.LogEvent("RotateUp");
         }
     }
+
 
     public void RotateDown()
     {
@@ -236,7 +251,11 @@ CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORo
             //CurrentControllFurniture.transform.Rotate(new Vector3(-90, 0, 0));
             // CurrentControllFurniture.transform.RotateAround(currentFurnitureCenterVec, new Vector3(-90, 0, 0), -90);
             furnitureRotateSeq.Append(
-CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.localRotation * Quaternion.Euler(-90, 0, 0), 0.4f).OnComplete(() => canRotate = true));
+CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.rotation * Quaternion.Euler(-90, 0, 0), 0.4f).OnComplete(() => canRotate = true));
+
+            // furnitureRotateSeq.Append(
+            //             CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.DORotateQuaternion(Quaternion.Euler(CurrentControllFurniture.GetComponentInChildren<FurniturePivot>().transform.rotation.eulerAngles + new Vector3(-90, 0, 0)), 0.4f).OnComplete(() => canRotate = true));
+
             Firebase.Analytics.FirebaseAnalytics.LogEvent("RotateDown");
 
         }
