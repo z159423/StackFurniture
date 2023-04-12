@@ -7,7 +7,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private GameObject[] TutorialWindows;
 
     private int currentTutorialWindow = 0;
-    
+
     public void PreviousWindow()
     {
         try
@@ -19,10 +19,13 @@ public class Tutorial : MonoBehaviour
                 currentTutorialWindow--;
             }
         }
-        catch(System.IndexOutOfRangeException ex)
+        catch (System.IndexOutOfRangeException ex)
         {
 
         }
+
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("MoveToturial", "tutorialPageNum", currentTutorialWindow);
+
     }
 
     public void NextWindow()
@@ -40,6 +43,9 @@ public class Tutorial : MonoBehaviour
         {
 
         }
+
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("MoveToturial", "tutorialPageNum", currentTutorialWindow);
+
     }
 
 }

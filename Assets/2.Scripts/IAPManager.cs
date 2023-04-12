@@ -12,7 +12,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     //Your products IDs. They should match the ids of your products in your store.
     //com.TeroGames.spacesurvivor.
-    public string removeAdsId = "noads";
+    public string removeAdsId = "removeads";
 
     [Space]
 
@@ -34,7 +34,12 @@ public class IAPManager : MonoBehaviour, IStoreListener
     {
         //UpdateUI();
 
-        InitializePurchasing();
+        // InitializePurchasing();
+
+        // UpdateUI2();
+
+        if (!HadPurchased())
+            BottomBanner.instance.RequestBanner();
 
         StartCoroutine(InitIAP());
 
@@ -48,7 +53,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
                 if (m_StoreController != null)
                 {
                     initialized = true;
-                    
+
                     break;
                 }
                 else
@@ -106,9 +111,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
         builder.AddProduct(removeAdsId, ProductType.NonConsumable,
         new IDs()
         {
-            {"noads", GooglePlay.Name}
+            {"removeads", GooglePlay.Name}
         });
-
 
         UnityPurchasing.Initialize(this, builder);
     }
@@ -120,8 +124,9 @@ public class IAPManager : MonoBehaviour, IStoreListener
         this.m_StoreController = controller;
         this.m_Extension = extensions;
 
-        HadPurchased();
-        UpdateUI2();
+
+
+        AdManager.instance.TimeTick();
     }
 
     public void OnInitializeFailed(InitializationFailureReason error)
@@ -199,17 +204,15 @@ public class IAPManager : MonoBehaviour, IStoreListener
     /// </summary>
     public bool HadPurchased()
     {
-        var product = m_StoreController.products.WithID(removeAdsId);
+        // var product = m_StoreController.products.WithID(removeAdsId);
         bool purchased = false;
 
-        print(product.receipt);
+        print(ES3.Load<bool>("noads"));
 
-        if (product.hasReceipt || ES3.Load<bool>("noads"))
+        if (/* product.hasReceipt || */ ES3.Load<bool>("noads"))
         {
             print("광고제거를 구매한 적이 있는 유저");
             purchased = true;
-
-            BottomBanner.instance.DestoryBanner();
         }
 
         return purchased;

@@ -38,6 +38,8 @@ public class Furniture : MonoBehaviour
         rigid.isKinematic = true;
         isFreeze = true;
 
+        AudioManager.instance.PlaySFX("pause", Random.Range(0.8f, 1.2f));
+
         var freeze = new GameObject();
         freeze.transform.position = GetComponentInParent<FurniturePivot>().transform.position;
 
@@ -113,9 +115,10 @@ public class Furniture : MonoBehaviour
                 GameFlowController.instance.CheckHeight();
                 FurnitureSpawnManager.instance.SpawnNewFurniture();
 
-                Vibration.Vibrate((long)50);
+                // Vibration.Vibrate((long)50);
+                MoreMountains.NiceVibrations.MMVibrationManager.Haptic(MoreMountains.NiceVibrations.HapticTypes.MediumImpact);
 
-                AudioManager.instance.PlaySFX("Wood" + Random.Range(1, 4).ToString());
+                AudioManager.instance.PlaySFX("Wood" + Random.Range(1, 4).ToString(), Random.Range(0.8f, 1.2f));
                 //GetComponent<MeshCollider>().enabled = false;
             }
         }

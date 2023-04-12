@@ -120,6 +120,26 @@ public class AudioManager : MonoBehaviour
 
         SFXaudioSource.volume = s.volume;
         SFXaudioSource.pitch = s.pitch;
+
+        SFXaudioSource.loop = s.loop;
+        SFXaudioSource.outputAudioMixerGroup = s.audioMixerGroup;
+        SFXaudioSource.time = s.time;
+
+        SFXaudioSource.Play();
+    }
+
+    public void PlaySFX(string name, float pitch = 1f)
+    {
+        if (!GameFlowController.instance.playSound)
+            return;
+
+        Sound s = Array.Find(SFX, sound => sound.name == name);
+
+        SFXaudioSource.clip = s.clip;
+
+        SFXaudioSource.volume = s.volume;
+        SFXaudioSource.pitch = pitch;
+
         SFXaudioSource.loop = s.loop;
         SFXaudioSource.outputAudioMixerGroup = s.audioMixerGroup;
         SFXaudioSource.time = s.time;

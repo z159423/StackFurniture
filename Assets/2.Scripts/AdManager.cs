@@ -29,15 +29,19 @@ public class AdManager : MonoBehaviour
     {
         CreateAndLoadRewardedAd();
         RequestInterstitial();
+    }
 
-        if (!IAPManager.instance.HadPurchased())
-            StartCoroutine(TimeTick());
+    public void TimeTick()
+    {
+        WaitForSeconds sec = new WaitForSeconds(1);
+
+        StartCoroutine(TimeTick());
 
         IEnumerator TimeTick()
         {
             while (true)
             {
-                yield return new WaitForSeconds(1);
+                yield return sec;
 
                 if (IrTimeTicking)
                 {

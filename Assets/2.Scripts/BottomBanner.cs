@@ -23,7 +23,7 @@ public class BottomBanner : MonoBehaviour
         //     this.RequestBanner();
     }
 
-    private void RequestBanner()
+    public void RequestBanner()
     {
 #if UNITY_ANDROID
         string adUnitId = "ca-app-pub-5179254807136480/4994400059";

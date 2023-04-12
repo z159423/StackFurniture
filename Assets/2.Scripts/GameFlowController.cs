@@ -355,9 +355,15 @@ public class GameFlowController : MonoBehaviour
 
     public void TutorialOn()
     {
+        if (!TutorialPanel.activeSelf)
+            Firebase.Analytics.FirebaseAnalytics.LogEvent("TutorialOpen");
+        else
+            Firebase.Analytics.FirebaseAnalytics.LogEvent("TutorialClose");
+
         TutorialPanel.SetActive(!TutorialPanel.activeSelf);
 
         OptionPanel.SetActive(false);
+
     }
 
     public void Revive()
