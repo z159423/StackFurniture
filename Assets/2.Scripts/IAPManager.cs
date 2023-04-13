@@ -34,12 +34,9 @@ public class IAPManager : MonoBehaviour, IStoreListener
     {
         //UpdateUI();
 
-        // InitializePurchasing();
+        InitializePurchasing();
 
         // UpdateUI2();
-
-        if (!HadPurchased())
-            BottomBanner.instance.RequestBanner();
 
         StartCoroutine(InitIAP());
 
@@ -53,6 +50,11 @@ public class IAPManager : MonoBehaviour, IStoreListener
                 if (m_StoreController != null)
                 {
                     initialized = true;
+
+                    if (!HadPurchased())
+                        BottomBanner.instance.RequestBanner();
+
+                    UpdateUI2();
 
                     break;
                 }
@@ -79,8 +81,6 @@ public class IAPManager : MonoBehaviour, IStoreListener
         CheckRemoveAdsHasPurchase();
 
         UpdateUI2();
-
-        print("구매");
     }
 
     private void CheckRemoveAdsHasPurchase()
@@ -95,8 +95,6 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
         UpdateUI2();
     }
-
-
 
     void InitializePurchasing()
     {
@@ -124,8 +122,6 @@ public class IAPManager : MonoBehaviour, IStoreListener
         this.m_StoreController = controller;
         this.m_Extension = extensions;
 
-
-
         AdManager.instance.TimeTick();
     }
 
@@ -151,6 +147,11 @@ public class IAPManager : MonoBehaviour, IStoreListener
         //Add the purchased product to the players inventory
 
         Debug.Log($"Purchase Complete - Product: {product.definition.id}");
+
+        if (product.definition.id == removeAdsId)
+        {
+            PurchaseRemoveAds_Success();
+        }
 
         //We return Complete, informing IAP that the processing on our side is done and the transaction can be closed.
         return PurchaseProcessingResult.Complete;
@@ -185,7 +186,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
         print(product.hasReceipt);
 
-        if (ES3.Load<bool>("noads"))
+        if (HadPurchased())
         {
             foreach (GameObject btn in removeAdsButtons)
             {
@@ -195,8 +196,6 @@ public class IAPManager : MonoBehaviour, IStoreListener
             print("광고 제거를 구매하였기 때문에 버튼 비활성화");
             BottomBanner.instance.DestoryBanner();
         }
-
-
     }
 
     /// <summary>
@@ -204,12 +203,13 @@ public class IAPManager : MonoBehaviour, IStoreListener
     /// </summary>
     public bool HadPurchased()
     {
-        // var product = m_StoreController.products.WithID(removeAdsId);
+        var product = m_StoreController.products.WithID(removeAdsId);
         bool purchased = false;
 
         print(ES3.Load<bool>("noads"));
+        print(product.hasReceipt);
 
-        if (/* product.hasReceipt || */ ES3.Load<bool>("noads"))
+        if (product.hasReceipt || ES3.Load<bool>("noads"))
         {
             print("광고제거를 구매한 적이 있는 유저");
             purchased = true;

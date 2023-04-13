@@ -241,6 +241,8 @@ public class AdManager : MonoBehaviour
 
                 rewardedAd.OnUserEarnedReward -= HandleUserEarnedReward;
                 CreateAndLoadRewardedAd();
+
+                AdManager.instance.currentIrAdTimeTick = 0;
             }
 
             rewardedAd.Show();
