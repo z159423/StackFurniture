@@ -166,6 +166,7 @@ public class FurnitureSpawnManager : MonoBehaviour
         if (CurrentControllFurniture != null)
         {
             CurrentControllFurniture.GetComponentInChildren<Rigidbody>().useGravity = true;
+
             furnitureDownLine.enabled = false;
         }
     }

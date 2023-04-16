@@ -29,19 +29,19 @@ MonoBehaviour:
     referenceMode: 2
     serializationDepthLimit: 64
     assemblyNames:
-    - UniTask
     - Assembly-CSharp
-    - UniTask.Linq
     - Cinemachine
-    - UniTask.DOTween
     - Assembly-CSharp-firstpass
     - Purchasing.Common
+    - UniTask
+    - UniTask.Linq
     - UniTask.Addressables
     - UniTask.TextMeshPro
     - Sirenix.OdinInspector.Modules.UnityLocalization
+    - UniTask.DOTween
+    - GoogleMobileAds.Editor
     - UniTask.Editor
     - Sirenix.OdinInspector.Modules.UnityLocalization.Editor
-    - GoogleMobileAds.Editor
     - Sirenix.OdinInspector.Modules.UnityMathematics
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0

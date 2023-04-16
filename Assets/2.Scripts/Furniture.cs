@@ -7,6 +7,7 @@ public class Furniture : MonoBehaviour
 {
     [SerializeField] private bool isTriggered = false;
     [SerializeField] private bool isFreeze = false;
+    public bool IsFreeze => isFreeze;
 
     private Vector3 lastPos;
     private float freezeTime = 5;

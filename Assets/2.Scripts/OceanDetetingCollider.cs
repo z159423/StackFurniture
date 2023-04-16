@@ -18,6 +18,9 @@ public class OceanDetetingCollider : MonoBehaviour
         {
             if (other.CompareTag("Furniture"))
             {
+                if (other.GetComponentInChildren<Furniture>().IsFreeze)
+                    return;
+
                 if (triggerPoint != null)
                     Destroy(triggerPoint);
 
